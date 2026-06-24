@@ -65,11 +65,6 @@ public class SecurityConfig {
     }
 }
 
-/**
- * Extracts realm roles from Keycloak JWT payload structured as:
- * { "realm_access": { "roles": ["USER"] } }
- * Automatically prefixes them with "ROLE_" to satisfy Spring Security's hasRole() requirement.
- */
 class KeycloakRealmRoleConverter implements Converter<Jwt, Collection<GrantedAuthority>> {
     @Override
     @SuppressWarnings("unchecked")
@@ -85,7 +80,6 @@ class KeycloakRealmRoleConverter implements Converter<Jwt, Collection<GrantedAut
         }
 
         return roles.stream()
-                // FIX: If role is "USER", maps it to "ROLE_USER". If already "ROLE_USER", leaves it clean.
                 .map(role -> new SimpleGrantedAuthority(role.startsWith("ROLE_") ? role : "ROLE_" + role))
                 .collect(Collectors.toList());
     }
