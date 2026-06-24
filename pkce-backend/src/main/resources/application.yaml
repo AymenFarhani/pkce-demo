@@ -1,0 +1,16 @@
+server:
+  port: 8081
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # Keycloak OpenID configuration URL to fetch validation keys
+          issuer-uri: http://localhost:8080/realms/pkce-demo
+          jwk-set-uri: http://localhost:8080/realms/pkce-demo/protocol/openid-connect/certs
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: DEBUG
